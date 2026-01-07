@@ -25,7 +25,34 @@ app.use(helmet({
 }));
 app.use(compression());
 app.use(morgan('combined'));
-app.use(cors());
+
+// CORS Configuration - Allow Vercel frontend and local development
+const allowedOrigins = [
+    'https://developers-hub-v1.vercel.app',
+    'https://developers-hub-v1-ekjkp3kg-wasiq2004s-projects.vercel.app', // Preview deployments
+    'http://localhost:3000',
+    'http://localhost:5173'
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Allow Vercel preview deployments (they have dynamic URLs)
+        if (origin.includes('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(apiLimiter);
 
