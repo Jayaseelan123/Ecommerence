@@ -28,10 +28,8 @@ app.use(morgan('combined'));
 
 // CORS Configuration - Allow Vercel frontend and local development
 const allowedOrigins = [
-    'https://developers-hub-v1.vercel.app',
-    'https://developers-hub-v1-ekjkp3kg-wasiq2004s-projects.vercel.app', // Preview deployments
-    'http://localhost:3000',
-    'http://localhost:5173'
+    'https://developershub12.netlify.app/', // Preview deployments
+    'http://localhost:3000'
 ];
 
 app.use(cors({
